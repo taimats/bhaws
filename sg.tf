@@ -2,11 +2,8 @@
 # 踏み台サーバー用
 # ----------------------
 resource "aws_security_group" "bastion" {
+  name = "${var.project}-${var.env}-sg-bastion"
   vpc_id = aws_vpc.main.id
-
-  tags = {
-    Name = "${var.project}-${var.env}-sg-bastion"
-  }
 }
 
 resource "aws_security_group_rule" "bastion_in_ssh" {
