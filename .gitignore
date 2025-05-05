@@ -2,3 +2,4 @@
 *.tfvars
 !example.tfvars
 *.lock.*
+src/*
