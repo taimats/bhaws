@@ -1,2 +1,4 @@
+.terraform/*
 *.tfvars
 !example.tfvars
+*.lock.*
