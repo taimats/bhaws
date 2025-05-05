@@ -30,7 +30,7 @@ resource "aws_eip" "nat_3c" {
 # ----------------------
 # NAT Gateway
 # ----------------------
-resource "aws_nat_gateway" "3a" {
+resource "aws_nat_gateway" "ptivate_3a" {
   subnet_id = aws_subnet.public_3a.id
   allocation_id = aws_eip.nat_3a.id
 
@@ -38,7 +38,7 @@ resource "aws_nat_gateway" "3a" {
     Name = "${var.project}-${var.env}-nat-3a"
   }
 }
-resource "aws_nat_gateway" "3c" {
+resource "aws_nat_gateway" "ptivate_3c" {
   subnet_id = aws_subnet.public_3c.id
   allocation_id = aws_eip.nat_3c.id
 
