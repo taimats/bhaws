@@ -22,6 +22,16 @@ provider "aws" {
   region  = var.region
 }
 
+variable "project" {
+  type        = string
+  description = "project名"
+}
+
+variable "env" {
+  type        = string
+  description = "インフラの環境名"
+}
+
 variable "profile" {
   type        = string
   description = "awsアクセス時のユーザー名"
