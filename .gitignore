@@ -2,4 +2,7 @@
 *.tfvars
 !example.tfvars
 *.lock.*
+
 src/*
+
+todo.txt
