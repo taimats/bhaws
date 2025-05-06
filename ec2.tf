@@ -26,7 +26,7 @@ resource "aws_instance" "bastion" {
 # APサーバー1
 # ----------------------
 resource "aws_instance" "app_3a" {
-  ami                         = "ami-0da09749dc59c9fcc"
+  ami                         = "ami-00dc6d07c0a114859"
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.private_3a.id
   associate_public_ip_address = false
@@ -41,7 +41,7 @@ resource "aws_instance" "app_3a" {
 # APサーバー2
 # ----------------------
 resource "aws_instance" "app_3c" {
-  ami                         = "ami-0da09749dc59c9fcc"
+  ami                         = "ami-00dc6d07c0a114859"
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.private_3c.id
   associate_public_ip_address = false
