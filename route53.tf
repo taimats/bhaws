@@ -1,14 +1,19 @@
 # ----------------------
-# Route53 ホストゾーン
+# Route53で作成済みのドメインを使ってホストゾーンを生成
 # ----------------------
 variable "domain" {
   type        = string
   description = "ドメイン名"
 }
 
-resource "aws_route53_zone" "main" {
-  name          = var.domain
-  force_destroy = false
+variable "host_zone_id" {
+  type        = string
+  description = "ホストゾーンID"
+}
+
+data "aws_route53_zone" "main" {
+  zone_id      = var.host_zone_id
+  private_zone = false
 
   tags = {
     Name = "${var.project}-${var.env}-route53-zone-main"
@@ -16,11 +21,10 @@ resource "aws_route53_zone" "main" {
 }
 
 # ----------------------
-# Route53 レコード
+# ロードバランサー用のDNSレコード
 # ----------------------
-# ALBレコード
 resource "aws_route53_record" "alb" {
-  zone_id = aws_route53_zone.main.id
+  zone_id = data.aws_route53_zone.main.id
   name    = "www.${var.domain}"
   type    = "A"
 
