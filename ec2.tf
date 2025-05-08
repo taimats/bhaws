@@ -31,6 +31,7 @@ resource "aws_instance" "app_3a" {
   subnet_id                   = aws_subnet.private_3a.id
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.app.id]
+  user_data                   = file("./src/init.sh")
 
   tags = {
     Name = "${var.project}-${var.env}-ec2-app-3a"
@@ -46,6 +47,7 @@ resource "aws_instance" "app_3c" {
   subnet_id                   = aws_subnet.private_3c.id
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.app.id]
+  user_data                   = file("./src/init.sh")
 
   tags = {
     Name = "${var.project}-${var.env}-ec2-app-3c"
