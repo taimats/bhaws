@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.16"
     }
+    http = {
+      source  = "hashicorp/http"
+      version = "~> 3.4"
+    }
   }
 
   backend "s3" {
@@ -21,6 +25,8 @@ provider "aws" {
   profile = var.profile
   region  = var.region
 }
+
+provider "http" {}
 
 variable "project" {
   type        = string
