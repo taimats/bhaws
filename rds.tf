@@ -1,3 +1,13 @@
+variable "username" {
+  type = string
+}
+variable "db_name" {
+  type = string
+}
+resource "random_password" "db_password" {
+  length = 16
+}
+
 # ----------------------
 # RDSインスタンス
 # ----------------------
@@ -23,9 +33,9 @@ resource "aws_db_instance" "main" {
   skip_final_snapshot = false
   apply_immediately   = true
 
-  username = "admin"
+  username = var.username
   password = random_password.db_password.result
-  db_name  = "bhapi-db"
+  db_name  = var.db_name
 
   tags = {
     Name = "${var.project}-${var.env}-postgres"
@@ -40,6 +50,3 @@ resource "aws_db_subnet_group" "main" {
   subnet_ids = [aws_subnet.private_3a.id, aws_subnet.private_3c.id]
 }
 
-resource "random_password" "db_password" {
-  length = 16
-}
