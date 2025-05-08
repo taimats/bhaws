@@ -8,7 +8,7 @@ data "http" "my_ip" {
 }
 
 locals {
-  my_ip = "${jsondecode(data.http.my_ip)["ip"]}/32"
+  my_ip = "${jsondecode(data.http.my_ip.response_body)["ip"]}/32"
 }
 
 # ----------------------
@@ -69,7 +69,7 @@ resource "aws_security_group_rule" "egress_alb_for_private_subnet" {
   protocol          = "-1"
   from_port         = 0
   to_port           = 0
-  cidr_blocks       = [aws_subnet.private_3a, aws_subnet.private_3c]
+  cidr_blocks       = [aws_subnet.private_3a.cidr_block, aws_subnet.private_3c.cidr_block]
 }
 
 # ----------------------
