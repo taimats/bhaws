@@ -1,3 +1,16 @@
+# 自分のIPアドレスを動的に取得
+data "http" "my_ip" {
+  url = "https://api.ipify.org?format=json"
+
+  request_headers = {
+    Accept = "application/json"
+  }
+}
+
+locals {
+  my_ip = "${jsondecode(data.http.my_ip)["ip"]}/32"
+}
+
 # ----------------------
 # 踏み台サーバー用
 # ----------------------
@@ -6,22 +19,22 @@ resource "aws_security_group" "bastion" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "bastion_in_ssh" {
+resource "aws_security_group_rule" "ingress_bastion_ssh" {
   security_group_id = aws_security_group.bastion.id
   type              = "ingress"
   protocol          = "tcp"
   from_port         = 22
   to_port           = 22
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = [local.my_ip]
 }
 
-resource "aws_security_group_rule" "bastion_out_for_app" {
-  security_group_id        = aws_security_group.bastion.id
-  type                     = "egress"
-  protocol                 = "tcp"
-  from_port                = 22
-  to_port                  = 22
-  source_security_group_id = aws_security_group.app.id
+resource "aws_security_group_rule" "egress_bastion_for_all" {
+  security_group_id = aws_security_group.bastion.id
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 # ----------------------
@@ -32,7 +45,7 @@ resource "aws_security_group" "alb" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "alb_in_http" {
+resource "aws_security_group_rule" "ingress_alb_http" {
   security_group_id = aws_security_group.alb.id
   type              = "ingress"
   protocol          = "tcp"
@@ -41,13 +54,22 @@ resource "aws_security_group_rule" "alb_in_http" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "alb_in_https" {
+resource "aws_security_group_rule" "ingress_alb_https" {
   security_group_id = aws_security_group.alb.id
   type              = "ingress"
   protocol          = "tcp"
   from_port         = 443
   to_port           = 443
   cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "egress_alb_for_private_subnet" {
+  security_group_id = aws_security_group.alb.id
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = [aws_subnet.private_3a, aws_subnet.private_3c]
 }
 
 # ----------------------
@@ -58,7 +80,7 @@ resource "aws_security_group" "app" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "app_in_from_bastion" {
+resource "aws_security_group_rule" "ingress_app_from_bastion" {
   security_group_id        = aws_security_group.app.id
   type                     = "ingress"
   protocol                 = "tcp"
@@ -67,7 +89,7 @@ resource "aws_security_group_rule" "app_in_from_bastion" {
   source_security_group_id = aws_security_group.bastion.id
 }
 
-resource "aws_security_group_rule" "app_in_from_alb" {
+resource "aws_security_group_rule" "ingress_app_from_alb" {
   security_group_id        = aws_security_group.app.id
   type                     = "ingress"
   protocol                 = "tcp"
@@ -76,7 +98,7 @@ resource "aws_security_group_rule" "app_in_from_alb" {
   source_security_group_id = aws_security_group.alb.id
 }
 
-resource "aws_security_group_rule" "app_out_https" {
+resource "aws_security_group_rule" "egress_app_https" {
   security_group_id = aws_security_group.app.id
   type              = "egress"
   protocol          = "tcp"
@@ -85,7 +107,7 @@ resource "aws_security_group_rule" "app_out_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "app_out_for_db" {
+resource "aws_security_group_rule" "egress_app_for_db" {
   security_group_id        = aws_security_group.app.id
   type                     = "egress"
   protocol                 = "tcp"
@@ -102,7 +124,16 @@ resource "aws_security_group" "db" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "db_in_from_app" {
+resource "aws_security_group_rule" "ingress_db_from_bastion" {
+  security_group_id        = aws_security_group.db.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 5432
+  to_port                  = 5432
+  source_security_group_id = aws_security_group.bastion.id
+}
+
+resource "aws_security_group_rule" "ingress_db_from_app" {
   security_group_id        = aws_security_group.db.id
   type                     = "ingress"
   protocol                 = "tcp"
