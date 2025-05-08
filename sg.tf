@@ -17,6 +17,10 @@ locals {
 resource "aws_security_group" "bastion" {
   name   = "${var.project}-${var.env}-sg-bastion"
   vpc_id = aws_vpc.main.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ingress_bastion_ssh" {
@@ -43,6 +47,10 @@ resource "aws_security_group_rule" "egress_bastion_for_all" {
 resource "aws_security_group" "alb" {
   name   = "${var.project}-${var.env}-sg-alb"
   vpc_id = aws_vpc.main.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ingress_alb_http" {
@@ -78,6 +86,10 @@ resource "aws_security_group_rule" "egress_alb_for_private_subnet" {
 resource "aws_security_group" "app" {
   name   = "${var.project}-${var.env}-sg-app"
   vpc_id = aws_vpc.main.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ingress_app_from_bastion" {
@@ -122,6 +134,10 @@ resource "aws_security_group_rule" "egress_app_for_db" {
 resource "aws_security_group" "db" {
   name   = "${var.project}-${var.env}-sg-db"
   vpc_id = aws_vpc.main.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ingress_db_from_bastion" {
