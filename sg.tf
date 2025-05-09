@@ -119,6 +119,15 @@ resource "aws_security_group_rule" "egress_app_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "egress_app_ssh" {
+  security_group_id = aws_security_group.app.id
+  type              = "egress"
+  protocol          = "tcp"
+  from_port         = 22
+  to_port           = 22
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 resource "aws_security_group_rule" "egress_app_for_db" {
   security_group_id        = aws_security_group.app.id
   type                     = "egress"
