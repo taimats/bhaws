@@ -14,12 +14,12 @@ resource "random_password" "db_password" {
 resource "aws_db_instance" "main" {
   identifier = "${var.project}-${var.env}-postgres"
 
-  engine                = "postgres"
-  engine_version        = "16"
-  instance_class        = "db.t3.micro"
-  allocated_storage     = 20
-  storage_type          = "gp2"
-  storage_encrypted     = false
+  engine            = "postgres"
+  engine_version    = "16"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
+  storage_type      = "gp2"
+  storage_encrypted = false
 
   multi_az               = false
   availability_zone      = "ap-northeast-3a"
