@@ -19,11 +19,11 @@ resource "aws_eip" "nat_3a" {
     Name = "${var.project}-${var.env}-eip-nat-3a"
   }
 }
-resource "aws_eip" "nat_3c" {
+resource "aws_eip" "nat_3b" {
   vpc = true
 
   tags = {
-    Name = "${var.project}-${var.env}-eip-nat-3c"
+    Name = "${var.project}-${var.env}-eip-nat-3b"
   }
 }
 
@@ -38,11 +38,11 @@ resource "aws_nat_gateway" "ptivate_3a" {
     Name = "${var.project}-${var.env}-nat-3a"
   }
 }
-resource "aws_nat_gateway" "ptivate_3c" {
-  subnet_id     = aws_subnet.public_3c.id
-  allocation_id = aws_eip.nat_3c.id
+resource "aws_nat_gateway" "ptivate_3b" {
+  subnet_id     = aws_subnet.public_3b.id
+  allocation_id = aws_eip.nat_3b.id
 
   tags = {
-    Name = "${var.project}-${var.env}-nat-3c"
+    Name = "${var.project}-${var.env}-nat-3b"
   }
 }

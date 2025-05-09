@@ -6,7 +6,7 @@ resource "aws_lb" "main" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
-  subnets            = [aws_subnet.private_3a.id, aws_subnet.private_3c.id]
+  subnets            = [aws_subnet.private_3a.id, aws_subnet.private_3b.id]
 }
 
 resource "aws_lb_listener" "http" {
@@ -43,7 +43,7 @@ resource "aws_lb_target_group_attachment" "app_3a" {
   target_id        = aws_instance.app_3a.id
 }
 
-resource "aws_lb_target_group_attachment" "app_3c" {
+resource "aws_lb_target_group_attachment" "app_3b" {
   target_group_arn = aws_lb_target_group.apps.arn
-  target_id        = aws_instance.app_3c.id
+  target_id        = aws_instance.app_3b.id
 }

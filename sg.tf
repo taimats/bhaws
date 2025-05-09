@@ -77,7 +77,7 @@ resource "aws_security_group_rule" "egress_alb_for_private_subnet" {
   protocol          = "-1"
   from_port         = 0
   to_port           = 0
-  cidr_blocks       = [aws_subnet.private_3a.cidr_block, aws_subnet.private_3c.cidr_block]
+  cidr_blocks       = [aws_subnet.private_3a.cidr_block, aws_subnet.private_3b.cidr_block]
 }
 
 # ----------------------

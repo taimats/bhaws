@@ -12,6 +12,7 @@ variable "host_zone_id" {
 }
 
 data "aws_route53_zone" "main" {
+  vpc_id       = aws_vpc.main.id
   zone_id      = var.host_zone_id
   private_zone = false
 

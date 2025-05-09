@@ -27,14 +27,14 @@ resource "aws_subnet" "public_3a" {
   }
 }
 
-resource "aws_subnet" "public_3c" {
+resource "aws_subnet" "public_3b" {
   vpc_id                  = aws_vpc.main.id
-  availability_zone       = "${var.region}c"
+  availability_zone       = "${var.region}b"
   cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.project}-${var.env}-subnet-public-3c"
+    Name = "${var.project}-${var.env}-subnet-public-3b"
   }
 }
 
@@ -52,13 +52,13 @@ resource "aws_subnet" "private_3a" {
   }
 }
 
-resource "aws_subnet" "private_3c" {
+resource "aws_subnet" "private_3b" {
   vpc_id                  = aws_vpc.main.id
-  availability_zone       = "${var.region}c"
+  availability_zone       = "${var.region}b"
   cidr_block              = "10.0.4.0/24"
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.project}-${var.env}-subnet-private-3c"
+    Name = "${var.project}-${var.env}-subnet-private-3b"
   }
 }

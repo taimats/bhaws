@@ -3,8 +3,8 @@ output "app_3a_private_ip" {
   sensitive = true
 }
 
-output "app_3c_private_ip" {
-  value     = aws_instance.app_3c.private_ip
+output "app_3b_private_ip" {
+  value     = aws_instance.app_3b.private_ip
   sensitive = true
 }
 

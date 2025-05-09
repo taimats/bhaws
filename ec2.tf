@@ -41,15 +41,15 @@ resource "aws_instance" "app_3a" {
 # ----------------------
 # APサーバー2
 # ----------------------
-resource "aws_instance" "app_3c" {
+resource "aws_instance" "app_3b" {
   ami                         = "ami-00dc6d07c0a114859"
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.private_3c.id
+  subnet_id                   = aws_subnet.private_3b.id
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.app.id]
   user_data                   = file("./src/init.sh")
 
   tags = {
-    Name = "${var.project}-${var.env}-ec2-app-3c"
+    Name = "${var.project}-${var.env}-ec2-app-3b"
   }
 }

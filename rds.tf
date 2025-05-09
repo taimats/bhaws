@@ -47,6 +47,6 @@ resource "aws_db_instance" "main" {
 # ----------------------
 resource "aws_db_subnet_group" "main" {
   name       = "${var.project}-${var.env}-db-subnet-group-postgres"
-  subnet_ids = [aws_subnet.private_3a.id, aws_subnet.private_3c.id]
+  subnet_ids = [aws_subnet.private_3a.id, aws_subnet.private_3b.id]
 }
 
