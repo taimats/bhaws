@@ -32,6 +32,7 @@ resource "aws_instance" "app_01" {
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.app.id]
   user_data                   = file("./src/init.sh")
+  key_name                    = aws_key_pair.bastion.key_name
 
   tags = {
     Name = "${var.project}-${var.env}-ec2-app-01"
@@ -48,6 +49,7 @@ resource "aws_instance" "app_02" {
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.app.id]
   user_data                   = file("./src/init.sh")
+  key_name                    = aws_key_pair.bastion.key_name
 
   tags = {
     Name = "${var.project}-${var.env}-ec2-app-02"
