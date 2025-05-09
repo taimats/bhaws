@@ -5,7 +5,8 @@ variable "db_name" {
   type = string
 }
 resource "random_password" "db_password" {
-  length = 16
+  length  = 16
+  special = false
 }
 
 # ----------------------
@@ -48,4 +49,3 @@ resource "aws_db_subnet_group" "main" {
   name       = "${var.project}-${var.env}-db-subnet-group-postgres"
   subnet_ids = [aws_subnet.private_01.id, aws_subnet.private_02.id]
 }
-
