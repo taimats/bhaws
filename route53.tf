@@ -12,7 +12,6 @@ variable "host_zone_id" {
 }
 
 data "aws_route53_zone" "main" {
-  vpc_id       = aws_vpc.main.id
   zone_id      = var.host_zone_id
   private_zone = false
 
@@ -29,8 +28,9 @@ resource "aws_route53_record" "alb" {
   name    = "www.${var.domain}"
   type    = "A"
 
+  //aliasを使うと、IPアドレスではなくホスト名（=dns_name）で指定ができる
   alias {
-    name                   = aws_lb.main.name
+    name                   = aws_lb.main.dns_name
     zone_id                = aws_lb.main.zone_id
     evaluate_target_health = true
   }
