@@ -25,6 +25,7 @@ resource "aws_db_instance" "main" {
   multi_az               = false
   availability_zone      = "ap-northeast-1a"
   db_subnet_group_name   = aws_db_subnet_group.main.name
+  parameter_group_name   = aws_db_parameter_group.main.name
   vpc_security_group_ids = [aws_security_group.db.id]
   publicly_accessible    = false
   port                   = 5432
@@ -45,6 +46,16 @@ resource "aws_db_instance" "main" {
 # ----------------------
 # RDSの設定関連
 # ----------------------
+resource "aws_db_parameter_group" "main" {
+  name   = "${var.project}-${var.env}-postgres-parameter-group"
+  family = "postgres16"
+
+  parameter {
+    name  = "rds.force_ssl"
+    value = "0"
+  }
+}
+
 resource "aws_db_subnet_group" "main" {
   name       = "${var.project}-${var.env}-db-subnet-group-postgres"
   subnet_ids = [aws_subnet.private_01.id, aws_subnet.private_02.id]
