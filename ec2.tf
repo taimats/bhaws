@@ -10,7 +10,7 @@ resource "aws_key_pair" "bastion" {
 # 踏み台サーバー
 # ----------------------
 resource "aws_instance" "bastion" {
-  ami                         = "ami-051ec687ccec0d381"
+  ami                         = "ami-0265dc69e8de144d3"
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.public_01.id
   associate_public_ip_address = true
@@ -26,7 +26,7 @@ resource "aws_instance" "bastion" {
 # APサーバー1
 # ----------------------
 resource "aws_instance" "app_01" {
-  ami                         = "ami-00dc6d07c0a114859"
+  ami                         = "ami-0c2da9ee6644f16e5"
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.private_01.id
   associate_public_ip_address = false
@@ -42,7 +42,7 @@ resource "aws_instance" "app_01" {
 # APサーバー2
 # ----------------------
 resource "aws_instance" "app_02" {
-  ami                         = "ami-00dc6d07c0a114859"
+  ami                         = "ami-0c2da9ee6644f16e5"
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.private_02.id
   associate_public_ip_address = false
