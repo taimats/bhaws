@@ -22,14 +22,14 @@ resource "aws_db_instance" "main" {
   storage_encrypted = false
 
   multi_az               = false
-  availability_zone      = "ap-northeast-3a"
+  availability_zone      = "ap-northeast-1a"
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.db.id]
   publicly_accessible    = false
   port                   = 5432
 
   deletion_protection = false
-  skip_final_snapshot = false
+  skip_final_snapshot = true
   apply_immediately   = true
 
   username = var.username
@@ -46,6 +46,6 @@ resource "aws_db_instance" "main" {
 # ----------------------
 resource "aws_db_subnet_group" "main" {
   name       = "${var.project}-${var.env}-db-subnet-group-postgres"
-  subnet_ids = [aws_subnet.private_3a.id, aws_subnet.private_3b.id]
+  subnet_ids = [aws_subnet.private_01.id, aws_subnet.private_02.id]
 }
 

@@ -1,10 +1,10 @@
-output "app_3a_private_ip" {
-  value     = aws_instance.app_3a.private_ip
+output "app_01_private_ip" {
+  value     = aws_instance.app_01.private_ip
   sensitive = true
 }
 
-output "app_3b_private_ip" {
-  value     = aws_instance.app_3b.private_ip
+output "app_02_private_ip" {
+  value     = aws_instance.app_02.private_ip
   sensitive = true
 }
 

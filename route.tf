@@ -9,14 +9,14 @@ resource "aws_route_table" "public" {
   }
 }
 
-resource "aws_route_table_association" "public_3a" {
+resource "aws_route_table_association" "public_01" {
   route_table_id = aws_route_table.public.id
-  subnet_id      = aws_subnet.public_3a.id
+  subnet_id      = aws_subnet.public_01.id
 }
 
-resource "aws_route_table_association" "public_3b" {
+resource "aws_route_table_association" "public_02" {
   route_table_id = aws_route_table.public.id
-  subnet_id      = aws_subnet.public_3b.id
+  subnet_id      = aws_subnet.public_02.id
 }
 
 resource "aws_route" "igw" {
@@ -28,40 +28,40 @@ resource "aws_route" "igw" {
 # ----------------------
 # Route Pprivate
 # ----------------------
-resource "aws_route_table" "private_3a" {
+resource "aws_route_table" "private_01" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.project}-${var.env}-rt-private-3a"
+    Name = "${var.project}-${var.env}-rt-private-01"
   }
 }
 
-resource "aws_route_table_association" "private_3a" {
-  route_table_id = aws_route_table.private_3a.id
-  subnet_id      = aws_subnet.private_3a.id
+resource "aws_route_table_association" "private_01" {
+  route_table_id = aws_route_table.private_01.id
+  subnet_id      = aws_subnet.private_01.id
 }
 
-resource "aws_route" "nat_private_3a" {
+resource "aws_route" "nat_private_01" {
   destination_cidr_block = "0.0.0.0/0"
-  route_table_id         = aws_route_table.private_3a.id
-  nat_gateway_id         = aws_nat_gateway.ptivate_3a.id
+  route_table_id         = aws_route_table.private_01.id
+  nat_gateway_id         = aws_nat_gateway.ptivate_01.id
 }
 
-resource "aws_route_table" "private_3b" {
+resource "aws_route_table" "private_02" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.project}-${var.env}-rt-private-3b"
+    Name = "${var.project}-${var.env}-rt-private-02"
   }
 }
 
-resource "aws_route_table_association" "private_3b" {
-  route_table_id = aws_route_table.private_3b.id
-  subnet_id      = aws_subnet.private_3b.id
+resource "aws_route_table_association" "private_02" {
+  route_table_id = aws_route_table.private_02.id
+  subnet_id      = aws_subnet.private_02.id
 }
 
-resource "aws_route" "nat_private_3b" {
+resource "aws_route" "nat_private_02" {
   destination_cidr_block = "0.0.0.0/0"
-  route_table_id         = aws_route_table.private_3b.id
-  nat_gateway_id         = aws_nat_gateway.ptivate_3b.id
+  route_table_id         = aws_route_table.private_02.id
+  nat_gateway_id         = aws_nat_gateway.ptivate_02.id
 }

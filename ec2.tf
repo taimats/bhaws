@@ -12,7 +12,7 @@ resource "aws_key_pair" "bastion" {
 resource "aws_instance" "bastion" {
   ami                         = "ami-051ec687ccec0d381"
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.public_3a.id
+  subnet_id                   = aws_subnet.public_01.id
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.bastion.id]
   key_name                    = aws_key_pair.bastion.key_name
@@ -25,31 +25,31 @@ resource "aws_instance" "bastion" {
 # ----------------------
 # APサーバー1
 # ----------------------
-resource "aws_instance" "app_3a" {
+resource "aws_instance" "app_01" {
   ami                         = "ami-00dc6d07c0a114859"
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.private_3a.id
+  subnet_id                   = aws_subnet.private_01.id
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.app.id]
   user_data                   = file("./src/init.sh")
 
   tags = {
-    Name = "${var.project}-${var.env}-ec2-app-3a"
+    Name = "${var.project}-${var.env}-ec2-app-01"
   }
 }
 
 # ----------------------
 # APサーバー2
 # ----------------------
-resource "aws_instance" "app_3b" {
+resource "aws_instance" "app_02" {
   ami                         = "ami-00dc6d07c0a114859"
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.private_3b.id
+  subnet_id                   = aws_subnet.private_02.id
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.app.id]
   user_data                   = file("./src/init.sh")
 
   tags = {
-    Name = "${var.project}-${var.env}-ec2-app-3b"
+    Name = "${var.project}-${var.env}-ec2-app-02"
   }
 }
